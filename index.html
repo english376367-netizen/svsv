@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Remember: a, a few, much, many, a little</title>
+<style>
+:root{--blue:#2563c9;--navy:#17365d;--bg:#f2f7ff;--line:#d9e4f2;--ink:#213047;--green:#167746;--red:#b52d3b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font:16px/1.55 Arial,sans-serif;color:var(--ink)}
+header{background:var(--navy);color:white;text-align:center;padding:22px 14px}header h1{margin:0;font-size:clamp(22px,4vw,30px)}header p{margin:6px 0 0;color:#e3edff}
+main{max-width:850px;margin:18px auto;padding:0 12px 36px}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:15px;box-shadow:0 4px 12px #17365d0b}
+h2{margin:0 0 8px;font-size:21px;color:var(--navy)}.rule-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.rule{border:1px solid var(--line);border-radius:10px;padding:11px;background:#fbfdff}.rule b{color:var(--blue);font-size:18px}.rule p{margin:4px 0}.small{font-size:14px;color:#66758b}.question{padding:14px 0;border-bottom:1px solid #edf1f6}.question:last-child{border-bottom:0}.stem{font-weight:600;margin-bottom:9px}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.choice{display:flex;align-items:center;gap:8px;text-align:left;background:white;border:1.5px solid #d4e0ef;border-radius:9px;padding:10px;cursor:pointer;font:inherit;color:var(--ink)}.choice:hover:not(:disabled){background:#f4f8ff;border-color:#8cb0e8}.choice .letter{font-weight:700;color:var(--blue)}.choice:disabled{cursor:default}.choice.correct{border-color:var(--green);background:#eafff0}.choice.wrong{border-color:var(--red);background:#fff0f1}
+.feedback{display:none;margin-top:9px;padding:10px 12px;border-radius:8px;font-size:14px}.feedback.show{display:block}.feedback.good{background:#eafff0;color:#155b36}.feedback.bad{background:#fff0f1;color:#8d2430}
+.btn{border:0;border-radius:9px;background:var(--blue);color:#fff;padding:11px 16px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.5;cursor:not-allowed}.btn.secondary{background:#e4ecf7;color:#244267}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.score{font-weight:700;background:#edf3fb;border-radius:20px;padding:6px 11px}.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.result{text-align:center}.big{font-size:34px;font-weight:800;color:var(--navy)}@media(max-width:540px){.rule-grid,.choices{grid-template-columns:1fr}.card{padding:12px}}
+</style>
+</head>
+<body>
+<header><h1>Remember: a, a few, much, many, a little</h1><p>Simple English Grammar Practice · Lớp 6</p></header>
+<main>
+<section class="card">
+<h2>1. Remember the rules</h2>
+<div class="rule-grid">
+<div class="rule"><b>a</b><p>một + danh từ đếm được số ít</p><p class="small">a book, a banana</p></div>
+<div class="rule"><b>a few</b><p>một vài + danh từ đếm được số nhiều</p><p class="small">a few apples, a few friends</p></div>
+<div class="rule"><b>many</b><p>nhiều + danh từ đếm được số nhiều</p><p class="small">many students, many eggs</p></div>
+<div class="rule"><b>much</b><p>nhiều + danh từ không đếm được</p><p class="small">much water, much money</p></div>
+<div class="rule"><b>a little</b><p>một ít + danh từ không đếm được</p><p class="small">a little milk, a little rice</p></div>
+</div>
+<p class="small">Mẹo nhớ: <b>many / a few → đếm được số nhiều</b>; <b>much / a little → không đếm được</b>; <b>a → số ít</b>.</p>
+</section>
+<section class="card">
+<div class="topline"><h2>2. Choose the correct answer</h2><span class="score" id="score">Score: 0 / 10</span></div>
+<p class="small">Choose one answer for a sentence. The answer and Vietnamese explanation appear immediately. Each question can be answered only once.</p>
+<div id="questions"></div>
+<div class="actions"><button class="btn secondary" onclick="resetQuiz()">Try again</button></div>
+<div class="feedback" id="overall"></div>
+</section>
+<section class="card result" id="result" hidden><h2>Well done!</h2><div class="big" id="final"></div><p id="message"></p></section>
+</main>
+<script>
+const qs=[
+{sentence:"1. I have _____ brother.",options:["a","a few","much","many"],answer:"a",why:"“Brother” là danh từ đếm được số ít, nên dùng “a” (một người anh/em trai)."},
+{sentence:"2. There are _____ eggs in the fridge.",options:["much","a little","many","a"],answer:"many",why:"“Eggs” là danh từ đếm được số nhiều. “Many” nghĩa là nhiều."},
+{sentence:"3. We need _____ water.",options:["many","a few","a","a little"],answer:"a little",why:"“Water” là danh từ không đếm được. “A little” nghĩa là một ít."},
+{sentence:"4. She has _____ close friends at school.",options:["a little","a few","much","a"],answer:"a few",why:"“Friends” là danh từ đếm được số nhiều. “A few” nghĩa là một vài."},
+{sentence:"5. How _____ milk do you drink every day?",options:["many","a few","much","a"],answer:"much",why:"“Milk” là danh từ không đếm được. Câu hỏi về lượng dùng “How much”."},
+{sentence:"6. There is _____ orange on the table.",options:["a","many","much","a few"],answer:"a",why:"“Orange” ở đây là một quả cam, danh từ đếm được số ít, nên dùng “an” trong tiếng Anh chuẩn. Trong các lựa chọn không có “an”; câu này cần sửa đáp án." ,fix:true},
+{sentence:"7. He has _____ money in his pocket.",options:["many","a few","a little","a"],answer:"a little",why:"“Money” là danh từ không đếm được. “A little” nghĩa là một ít."},
+{sentence:"8. How _____ students are in your class?",options:["much","many","a little","a"],answer:"many",why:"“Students” là danh từ đếm được số nhiều. Dùng “How many” để hỏi số lượng."},
+{sentence:"9. There are _____ chairs in the room, so some people must stand.",options:["much","a little","a few","a"],answer:"a few",why:"“Chairs” là danh từ đếm được số nhiều. “A few” nghĩa là một vài."},
+{sentence:"10. We don't have _____ time. Hurry up!",options:["many","a few","much","a"],answer:"much",why:"“Time” là danh từ không đếm được. Trong câu phủ định, “much time” nghĩa là nhiều thời gian."}
+];
+// Correct the deliberately unsuitable orange item into a valid article practice item with "a".
+qs[5]={sentence:"6. There is _____ banana on the table.",options:["a","many","much","a few"],answer:"a",why:"“Banana” là danh từ đếm được số ít, bắt đầu bằng âm phụ âm, nên dùng “a”."};
+let chosen={}, checkedQuestions={}, score=0;
+function render(){const root=document.getElementById('questions');root.innerHTML='';qs.forEach((q,i)=>{const div=document.createElement('div');div.className='question';div.innerHTML=`<div class="stem">${q.sentence}</div><div class="choices">${q.options.map((o,j)=>`<button class="choice" id="c${i}_${j}" onclick="pick(${i},${j})"><span class="letter">${String.fromCharCode(65+j)}.</span><span>${o}</span></button>`).join('')}</div><div class="feedback" id="f${i}"></div>`;root.appendChild(div)})}
+function pick(i,j){if(checkedQuestions[i])return;chosen[i]=j;checkedQuestions[i]=true;const q=qs[i],correct=q.options.indexOf(q.answer),ok=j===correct;if(ok)score++;q.options.forEach((o,k)=>{const b=document.getElementById(`c${i}_${k}`);b.disabled=true;if(k===correct)b.classList.add('correct');if(k===j&&!ok)b.classList.add('wrong')});const f=document.getElementById(`f${i}`);f.className='feedback show '+(ok?'good':'bad');f.innerHTML=`<b>${ok?'Correct!':'Not quite.'}</b><br><b>Answer:</b> ${q.answer}<br><b>Giải thích:</b> ${q.why}`;const done=Object.keys(checkedQuestions).length;document.getElementById('score').textContent=`Score: ${score} / ${done} answered`;if(done===qs.length){const o=document.getElementById('overall');o.className='feedback show '+(score===qs.length?'good':'bad');o.textContent=`Final score: ${score} / ${qs.length}`;document.getElementById('result').hidden=false;document.getElementById('final').textContent=`${score} / ${qs.length}`;document.getElementById('message').textContent=score===10?'Excellent! You remember the five forms very well.':'Read the explanations and try again to improve your score.'}}
+function resetQuiz(){chosen={};checkedQuestions={};score=0;document.getElementById('score').textContent='Score: 0 / 10';document.getElementById('overall').className='feedback';document.getElementById('overall').textContent='';document.getElementById('result').hidden=true;render()}
+render();
+</script></body></html>
